@@ -13,11 +13,11 @@ let satelliteStreets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/sate
 
 let baseMaps = {
     Streets: streets,
-    SatelliteStreets: satelliteStreets
+    Satellite: satelliteStreets
 }
 
 let map = L.map('mapid', {
-    center: [43.7, -79.3],
+    center: [39.5, -98.5],
     zoom: 11,
     layers: [streets]
 });
@@ -25,25 +25,28 @@ let map = L.map('mapid', {
 // Pass our map layers into our layers control and add the layers control to the map.
 L.control.layers(baseMaps).addTo(map);
 
-// Accessing the Toronto airline routes GeoJSON URL.
-let torontoHoods = "https://raw.githubusercontent.com/jilek/Mapping_Earthquakes/Mapping_GeoJSON_Polygons/Mapping_GeoJSON_Polygons/torontoNeighborhoods.json";
-
-// Create a style for the lines.
-let myStyle = {
-    color: "#0000ff",
-    fillColor: "#ffff00",
-    bubblingMouseEventa: true,
-    weight: 1
-};
-console.log("baz");
-// Grabbing our GeoJSON data.
-d3.json(torontoHoods).then(function (data) {
-    console.log(data);
-    L.geoJson(data, {
-        style: myStyle,
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup("<h3> Neighborhood: " + feature.properties.AREA_NAME + "</h3>");
-        }
-    }).addTo(map);
+// Accessing the USGS earthquakes GeoJSON URL.
+let earthQuakes = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
+// // Create a style for the lines.
+// let myStyle = {
+//     color: "#0000ff",
+//     fillColor: "#ffff00",
+//     bubblingMouseEventa: true,
+//     weight: 1
+// };
+// console.log("baz");
+// // Grabbing our GeoJSON data.
+// d3.json(torontoHoods).then(function (data) {
+//     console.log(data);
+//     L.geoJson(data, {
+//         style: myStyle,
+//         onEachFeature: function (feature, layer) {
+//             layer.bindPopup("<h3> Neighborhood: " + feature.properties.AREA_NAME + "</h3>");
+//         }
+//     }).addTo(map);
+// });
+d3.json(earthQuakes).then(function (data) {
+    // Creating a GeoJSON layer with the retrieved data.
+    L.geoJson(data).addTo(map);
 });
 console.log("done");
