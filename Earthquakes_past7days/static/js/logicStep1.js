@@ -18,7 +18,7 @@ let baseMaps = {
 
 let map = L.map('mapid', {
     center: [39.5, -98.5],
-    zoom: 11,
+    zoom: 3,
     layers: [streets]
 });
 
